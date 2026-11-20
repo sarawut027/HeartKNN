@@ -218,9 +218,9 @@ if st.button("ทำนายผล"):
 
    if out[0] == 0:
        st.success("ผลการวิเคราะห์: สุขภาพหัวใจปกติ (Normal)")
-       st.image("./img/good.jpg")  # หรือเปลี่ยนเป็นรูปหัวใจปกติ
+       st.image("./img/good.png")  # หรือเปลี่ยนเป็นรูปหัวใจปกติ
    else:
        st.error("ผลการวิเคราะห์: มีความเสี่ยงเป็นโรคหัวใจ (Heart Disease Detected)")
-       st.image("./img/bad.jpg")  # หรือเปลี่ยนเป็นรูปหัวใจมีปัญหา
+       st.image("./img/bad.png")  # หรือเปลี่ยนเป็นรูปหัวใจมีปัญหา
 else:
    st.write("ไม่ทำนาย")
