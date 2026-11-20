@@ -56,6 +56,9 @@ h1 {
     box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
     border: 1px solid rgba(225, 29, 72, 0.15);
     transition: all 0.35s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content in columns */
 }
 
 [data-testid="column"]:hover {
@@ -64,11 +67,17 @@ h1 {
     border-color: #FDA4AF;
 }
 
-/* Modern styling for images */
+/* Modern styling for images - Adjusted for better presentation */
+[data-testid="stImage"] {
+    display: flex;
+    justify-content: center;
+}
+
 [data-testid="stImage"] img {
     border-radius: 14px;
     object-fit: cover;
     width: 100%;
+    max-width: 400px; /* Added max-width to prevent images from becoming too large on wide screens */
     max-height: 250px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease;
@@ -145,24 +154,29 @@ div[data-baseweb="input"] {
 
 # ----------------- Title Header -----------------
 st.header("💓 โปรเจคการจำแนกโรคหัวใจ 💓")
-st.image("./img/Sarawut.jpg")
+# ใช้คอลัมน์เปล่าเพื่อจัดรูปตรงกลาง
+col_img1, col_img2, col_img3 = st.columns([1, 2, 1])
+with col_img2:
+    st.image("./img/Sarawut.jpg", use_container_width=True)
+
+st.markdown("<br>", unsafe_allow_html=True)
 
 # ----------------- 3 Species Showcase -----------------
 col1, col2 = st.columns(2)
 
 with col1:
     st.header("หัวใจปกติ (No Heart Disease)")
-    st.image("./img/Good.png")
+    st.image("./img/Good.png", use_container_width=True)
 
 with col2:
     st.header("ผู้ป่วยโรคหัวใจ (Heart Disease)")
-    st.image("./img/Bad.png")
+    st.image("./img/Bad.png", use_container_width=True)
 
 
 # ----------------- Data Section -----------------
 html_7 = """
 <div style="background: linear-gradient(135deg, #E11D48 0%, #BE123C 50%, #9F1239 100%); padding: 16px 20px; border-radius: 18px; box-shadow: 0 8px 22px rgba(190, 18, 60, 0.25); margin: 24px 0 16px 0; text-align: center;">
-    <h4 style="color: white; margin: 0; font-family: 'Prompt', sans-serif; font-weight: 600; letter-spacing: 0.5px;">🌸 สถิติข้อมูลดอกไม้ 🌸</h4>
+    <h4 style="color: white; margin: 0; font-family: 'Prompt', sans-serif; font-weight: 600; letter-spacing: 0.5px;">🫀 สถิติข้อมูลผู้ป่วย 🫀</h4>
 </div>
 """
 st.markdown(html_7, unsafe_allow_html=True)
@@ -188,7 +202,7 @@ else:
 # ----------------- Prediction Section -----------------
 html_8 = """
 <div style="background: linear-gradient(135deg, #0284C7 0%, #0369A1 50%, #BE123C 100%); padding: 16px 20px; border-radius: 18px; box-shadow: 0 8px 22px rgba(2, 132, 199, 0.25); margin: 28px 0 16px 0; text-align: center;">
-    <h4 style="color: white; margin: 0; font-family: 'Prompt', sans-serif; font-weight: 600; letter-spacing: 0.5px;">🌺 ทำนายข้อมูล 🌺</h4>
+    <h4 style="color: white; margin: 0; font-family: 'Prompt', sans-serif; font-weight: 600; letter-spacing: 0.5px;">⚕️ ทำนายความเสี่ยงโรคหัวใจ ⚕️</h4>
 </div>
 """
 st.markdown(html_8, unsafe_allow_html=True)
@@ -199,6 +213,7 @@ age = st.slider("กรุณาเลือกอายุ (Age)", min_value=18
 resting_bp = st.slider("กรุณาเลือกความดันโลหิตขณะพัก (RestingBP)", min_value=80, max_value=200, value=120)
 chol = st.number_input("กรุณากรอกระดับคอเลสเตอรอล (Cholesterol)", min_value=100, max_value=600, value=200)
 max_hr = st.number_input("กรุณากรอกอัตราการเต้นหัวใจสูงสุด (MaxHR)", min_value=60, max_value=220, value=150)
+
 if st.button("ทำนายผล"):
    #st.write("ทำนาย")
    #dt = pd.read_csv("./data/iris.csv") 
@@ -213,14 +228,19 @@ if st.button("ทำนายผล"):
 
    x_input = np.array([[age, resting_bp, chol, max_hr]]) #ข้อมูลใหม่สำหรับทำนาย
 
-   st.write(Knn_model.predict(x_input))   
+   # ซ่อน array prediction ดิบ เพื่อ UI ที่สะอาดตา
+   # st.write(Knn_model.predict(x_input))   
    out=Knn_model.predict(x_input)
 
-   if out[0] == 0:
-       st.success("ผลการวิเคราะห์: สุขภาพหัวใจปกติ (Normal)")
-       st.image("./img/Good.png")  # หรือเปลี่ยนเป็นรูปหัวใจปกติ
-   else:
-       st.error("ผลการวิเคราะห์: มีความเสี่ยงเป็นโรคหัวใจ (Heart Disease Detected)")
-       st.image("./img/Bad.png")  # หรือเปลี่ยนเป็นรูปหัวใจมีปัญหา
+   st.markdown("<br>", unsafe_allow_html=True)
+   
+   col_res1, col_res2, col_res3 = st.columns([1, 2, 1])
+   with col_res2:
+       if out[0] == 0:
+           st.success("ผลการวิเคราะห์: สุขภาพหัวใจปกติ (Normal)")
+           st.image("./img/Good.png", use_container_width=True)  # หรือเปลี่ยนเป็นรูปหัวใจปกติ
+       else:
+           st.error("ผลการวิเคราะห์: มีความเสี่ยงเป็นโรคหัวใจ (Heart Disease Detected)")
+           st.image("./img/Bad.png", use_container_width=True)  # หรือเปลี่ยนเป็นรูปหัวใจมีปัญหา
 else:
    st.write("ไม่ทำนาย")
