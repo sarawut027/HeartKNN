@@ -152,11 +152,11 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.header("หัวใจปกติ (No Heart Disease)")
-    st.image("./img/good.jpg")
+    st.image("./img/good.png")
 
 with col2:
     st.header("ผู้ป่วยโรคหัวใจ (Heart Disease)")
-    st.image("./img/bad.jpg")
+    st.image("./img/bad.png")
 
 
 # ----------------- Data Section -----------------
