@@ -152,11 +152,11 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.header("หัวใจปกติ (No Heart Disease)")
-    st.image("./img/good.png")
+    st.image("./img/Good.png")
 
 with col2:
     st.header("ผู้ป่วยโรคหัวใจ (Heart Disease)")
-    st.image("./img/bad.png")
+    st.image("./img/Bad.png")
 
 
 # ----------------- Data Section -----------------
@@ -218,9 +218,9 @@ if st.button("ทำนายผล"):
 
    if out[0] == 0:
        st.success("ผลการวิเคราะห์: สุขภาพหัวใจปกติ (Normal)")
-       st.image("./img/good.png")  # หรือเปลี่ยนเป็นรูปหัวใจปกติ
+       st.image("./img/Good.png")  # หรือเปลี่ยนเป็นรูปหัวใจปกติ
    else:
        st.error("ผลการวิเคราะห์: มีความเสี่ยงเป็นโรคหัวใจ (Heart Disease Detected)")
-       st.image("./img/bad.png")  # หรือเปลี่ยนเป็นรูปหัวใจมีปัญหา
+       st.image("./img/Bad.png")  # หรือเปลี่ยนเป็นรูปหัวใจมีปัญหา
 else:
    st.write("ไม่ทำนาย")
